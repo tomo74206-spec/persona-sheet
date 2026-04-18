@@ -1,0 +1,1088 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>顔剃りペルソナシート｜アクセスオオホリ</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --blue: #2b6cb0; --blue-l: #ebf8ff;
+  --green: #276749; --green-l: #e6fffa;
+  --orange: #f6ad55; --orange-l: #fffbeb;
+  --ink: #2d3748; --muted: #718096;
+  --border: #bee3f8; --bg: #f0f9ff; --white: #fff;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--ink);font-family:'Noto Sans JP',sans-serif;font-weight:300;min-height:100vh;}
+
+/* ヘッダー */
+header{background:linear-gradient(135deg,#2b6cb0,#3b9dd6);padding:24px 20px 20px;text-align:center;border-bottom:4px solid var(--orange);}
+header h1{font-size:18px;font-weight:500;color:#fff;letter-spacing:.06em;line-height:1.7;}
+header p{font-size:12px;color:rgba(255,255,255,.8);margin-top:6px;}
+
+/* タブ */
+.tabs{display:flex;background:var(--white);border-bottom:2px solid var(--border);position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,.06);}
+.tab{flex:1;padding:13px 6px;text-align:center;font-size:12px;font-weight:400;color:var(--muted);cursor:pointer;border-bottom:3px solid transparent;transition:all .2s;}
+.tab.active{color:var(--blue);border-bottom-color:var(--blue);font-weight:500;}
+.tab-content{display:none;}
+.tab-content.active{display:block;}
+
+.container{max-width:660px;margin:0 auto;padding:24px 16px 100px;}
+
+/* イントロ */
+.intro-box{background:var(--blue-l);padding:20px;border-bottom:2px solid var(--border);}
+.intro-box h2{font-size:14px;font-weight:500;color:var(--blue);margin-bottom:10px;}
+.intro-box p{font-size:12.5px;line-height:2;color:#4a5568;}
+.intro-box .hl{color:var(--blue);font-weight:500;}
+.route-box{background:var(--white);border-radius:10px;padding:14px 16px;margin-top:12px;border:1px solid var(--border);}
+.route-box .r{font-size:12.5px;line-height:2;margin-bottom:8px;}
+.route-box .r:last-child{margin-bottom:0;}
+.route-box .label-b{color:var(--blue);font-weight:500;}
+.route-box .label-y{color:#b7791f;font-weight:500;}
+.ex{font-size:11.5px;padding:6px 10px;border-radius:6px;margin-top:4px;line-height:1.8;}
+.ex.ok{background:#e6fffa;color:var(--green);}
+.ex.ng{background:#fff5f5;color:#c53030;}
+
+/* プログレス */
+.progress-bar{height:5px;background:#bee3f8;}
+.progress-fill{height:100%;background:var(--orange);transition:width .4s ease;width:0%;}
+
+/* チャプターヘッダー */
+.ch{display:flex;align-items:flex-start;gap:12px;padding:16px;border-radius:10px;margin-bottom:16px;}
+.ch.fact{background:var(--blue-l);border-left:5px solid var(--blue);}
+.ch.ideal{background:var(--green-l);border-left:5px solid var(--green);}
+.ch.reflect{background:var(--orange-l);border-left:5px solid var(--orange);}
+.ch-num{font-size:26px;font-weight:700;line-height:1;flex-shrink:0;}
+.ch.fact .ch-num{color:var(--blue);}
+.ch.ideal .ch-num{color:var(--green);}
+.ch.reflect .ch-num{color:#c05621;}
+.ch-text .tag{font-size:10px;font-weight:500;letter-spacing:.12em;padding:2px 9px;border-radius:20px;display:inline-block;margin-bottom:5px;}
+.ch.fact .tag{background:var(--blue);color:#fff;}
+.ch.ideal .tag{background:var(--green);color:#fff;}
+.ch.reflect .tag{background:var(--orange);color:#fff;}
+.ch-text h3{font-size:15px;font-weight:500;line-height:1.5;margin-bottom:4px;}
+.ch-text p{font-size:12px;color:var(--muted);line-height:1.8;}
+
+/* edu-card */
+.edu{background:var(--white);border:1px solid #c3dfc8;border-radius:10px;padding:16px;margin-bottom:14px;}
+.edu-title{font-size:12px;font-weight:500;color:var(--green);margin-bottom:8px;display:flex;align-items:center;gap:6px;}
+.edu-title::before{content:'💡';font-size:13px;}
+.edu p{font-size:12.5px;line-height:2;color:#444;}
+.edu strong{color:var(--ink);font-weight:500;}
+
+/* 設問カード */
+.qc{background:var(--white);border:1px solid var(--border);border-radius:10px;padding:18px 16px;margin-bottom:12px;}
+.qc.fq{border-top:3px solid var(--blue);}
+.qc.iq{border-top:3px solid var(--green);}
+.qbadge{font-size:10px;font-weight:500;letter-spacing:.08em;padding:3px 10px;border-radius:20px;display:inline-block;margin-bottom:7px;border:1px solid;}
+.fq .qbadge{background:var(--blue-l);color:var(--blue);border-color:var(--blue);}
+.iq .qbadge{background:var(--green-l);color:var(--green);border-color:var(--green);}
+.qlabel{font-size:13px;font-weight:500;line-height:1.7;margin-bottom:5px;}
+.req{color:var(--orange);font-size:11px;margin-left:4px;}
+.hint{font-size:11.5px;color:var(--muted);margin-bottom:12px;padding:7px 10px;background:var(--bg);border-left:2px solid var(--border);line-height:1.8;}
+.hint .hb{color:var(--blue);font-weight:500;}
+.hint .hy{color:#b7791f;font-weight:500;}
+
+/* 選択肢 */
+.choices{display:flex;flex-direction:column;gap:7px;}
+.ci{display:flex;align-items:center;gap:9px;padding:10px 13px;border:1px solid var(--border);border-radius:8px;cursor:pointer;transition:all .15s;font-size:13px;line-height:1.5;}
+.ci:hover{border-color:var(--blue);background:var(--blue-l);}
+.ci.sel{border-color:var(--blue);background:var(--blue-l);}
+.ci input{accent-color:var(--blue);width:15px;height:15px;flex-shrink:0;}
+
+/* テキスト入力 */
+textarea,.ni{width:100%;border:1px solid var(--border);border-radius:8px;padding:11px;font-family:'Noto Sans JP',sans-serif;font-size:13px;font-weight:300;color:var(--ink);background:var(--bg);outline:none;transition:border-color .2s;line-height:1.8;}
+textarea{resize:vertical;min-height:72px;}
+textarea:focus,.ni:focus{border-color:var(--blue);background:var(--white);}
+textarea::placeholder,.ni::placeholder{color:#aab;}
+
+/* スライダー */
+.price-val{font-size:22px;font-weight:500;color:var(--blue);text-align:center;margin-bottom:6px;}
+input[type=range]{width:100%;accent-color:var(--blue);}
+.range-ends{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-top:4px;}
+
+/* 区切り */
+.divider{border:none;border-top:1px solid var(--border);margin:24px 0;}
+
+/* ボタン */
+.btn-submit{display:block;width:100%;max-width:340px;margin:28px auto 0;background:var(--blue);color:#fff;border:none;padding:15px;font-family:'Noto Sans JP',sans-serif;font-size:15px;font-weight:500;border-radius:10px;cursor:pointer;letter-spacing:.08em;transition:background .2s,transform .1s;}
+.btn-submit:hover{background:#2563a8;transform:translateY(-1px);}
+
+/* サンキュー */
+.thankyou{display:none;text-align:center;padding:60px 20px;}
+.thankyou .mark{font-size:44px;margin-bottom:16px;}
+.thankyou h2{font-size:20px;font-weight:500;margin-bottom:10px;}
+.thankyou p{font-size:13px;color:var(--muted);line-height:2;}
+
+/* ===== 集計タブ ===== */
+/* ロック画面 */
+.lock-screen{text-align:center;padding:60px 24px;}
+.lock-screen .lock-icon{font-size:48px;margin-bottom:16px;}
+.lock-screen h2{font-size:18px;font-weight:500;margin-bottom:8px;}
+.lock-screen p{font-size:13px;color:var(--muted);margin-bottom:24px;line-height:1.8;}
+.pw-wrap{display:flex;gap:10px;max-width:300px;margin:0 auto;}
+.pw-input{flex:1;border:1px solid var(--border);border-radius:8px;padding:12px;font-size:15px;text-align:center;letter-spacing:.2em;outline:none;transition:border-color .2s;}
+.pw-input:focus{border-color:var(--blue);}
+.pw-btn{background:var(--blue);color:#fff;border:none;padding:12px 20px;border-radius:8px;font-size:14px;cursor:pointer;font-family:'Noto Sans JP',sans-serif;transition:background .2s;}
+.pw-btn:hover{background:#2563a8;}
+.pw-error{color:#c53030;font-size:12px;margin-top:10px;min-height:18px;}
+.pw-note{font-size:11px;color:var(--muted);margin-top:20px;line-height:1.8;}
+
+/* 待機メッセージ */
+.waiting-msg{text-align:center;padding:40px 20px;background:var(--orange-l);border-radius:10px;margin-bottom:20px;}
+.waiting-msg .wi{font-size:32px;margin-bottom:10px;}
+.waiting-msg h3{font-size:15px;font-weight:500;margin-bottom:6px;color:#c05621;}
+.waiting-msg p{font-size:12.5px;color:#744210;line-height:1.9;}
+.staff-status{display:flex;gap:10px;margin-top:14px;justify-content:center;flex-wrap:wrap;}
+.ss{padding:8px 16px;border-radius:20px;font-size:12px;font-weight:500;}
+.ss.done{background:#e6fffa;color:var(--green);border:1px solid #9ae6b4;}
+.ss.wait{background:#fff5f5;color:#c53030;border:1px solid #feb2b2;}
+
+/* 結果エリア */
+#resultArea{display:none;}
+.result-header{text-align:center;padding:16px 0 14px;}
+.result-header h2{font-size:16px;font-weight:500;}
+.result-header p{font-size:11px;color:var(--muted);margin-top:4px;}
+.legend{display:flex;gap:14px;margin-bottom:14px;flex-wrap:wrap;}
+.legend-item{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--muted);}
+.ldot{width:10px;height:10px;border-radius:50%;}
+.ldot.match{background:var(--green);}
+.ldot.solo{background:var(--blue);}
+.pcard{background:var(--white);border-radius:12px;padding:18px;margin-bottom:18px;border:2px solid var(--border);}
+.pcard.fact-c{border-color:#90cdf4;}
+.pcard.ideal-c{border-color:#9ae6b4;}
+.pcard-title{font-size:12px;font-weight:500;padding:5px 12px;border-radius:20px;display:inline-block;margin-bottom:12px;}
+.fact-c .pcard-title{background:var(--blue-l);color:var(--blue);}
+.ideal-c .pcard-title{background:var(--green-l);color:var(--green);}
+.ptext{font-size:14px;line-height:2.2;color:var(--ink);background:var(--bg);padding:12px;border-radius:8px;margin-bottom:10px;white-space:pre-wrap;}
+.copy-btn{background:#e2e8f0;color:var(--ink);border:none;padding:7px 14px;font-family:'Noto Sans JP',sans-serif;font-size:12px;border-radius:6px;cursor:pointer;transition:background .2s;}
+.copy-btn:hover{background:#cbd5e0;}
+.copy-btn.copied{background:var(--green-l);color:var(--green);}
+.score-section{margin-top:12px;}
+.score-section h4{font-size:11px;color:var(--muted);margin-bottom:7px;font-weight:400;}
+.sitems{display:flex;flex-wrap:wrap;gap:6px;}
+.stag{font-size:11px;padding:3px 10px;border-radius:20px;font-weight:400;}
+.stag.match{background:var(--green-l);color:var(--green);border:1px solid #9ae6b4;}
+.stag.solo{background:var(--blue-l);color:var(--blue);border:1px solid #90cdf4;}
+.fsec{background:var(--white);border-radius:12px;padding:18px;margin-bottom:18px;border:1px solid var(--border);}
+.fsec h3{font-size:13px;font-weight:500;margin-bottom:12px;}
+.frow{margin-bottom:10px;}
+.frow .fl{font-size:11px;color:var(--muted);margin-bottom:3px;}
+.frow .fv{font-size:13px;line-height:1.9;color:var(--ink);padding:10px;background:var(--bg);border-radius:6px;white-space:pre-wrap;}
+.gap-box{background:var(--white);border-radius:12px;padding:18px;margin-bottom:18px;border:1px solid var(--border);}
+.gap-box h3{font-size:13px;font-weight:500;margin-bottom:10px;}
+.gap-val{font-size:13px;line-height:2;padding:10px;background:var(--bg);border-radius:6px;white-space:pre-wrap;}
+
+.reset-btn{display:block;width:100%;max-width:240px;margin:20px auto 0;background:#fed7d7;color:#c53030;border:none;padding:10px;font-family:'Noto Sans JP',sans-serif;font-size:12px;border-radius:8px;cursor:pointer;transition:background .2s;}
+.reset-btn:hover{background:#feb2b2;}
+
+/* プロセスフロー */
+.flow-section{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:20px 18px;margin-bottom:20px;}
+.flow-section h3{font-size:13px;font-weight:500;color:var(--ink);margin-bottom:4px;}
+.flow-section .flow-sub{font-size:11.5px;color:var(--muted);margin-bottom:16px;line-height:1.7;}
+.flow-steps{display:flex;flex-direction:column;gap:0;}
+.flow-step{display:flex;gap:12px;align-items:flex-start;}
+.flow-step-left{display:flex;flex-direction:column;align-items:center;flex-shrink:0;width:36px;}
+.flow-icon{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;}
+.flow-icon.s0{background:#e6f4ff;border:2px solid var(--blue);}
+.flow-icon.s1{background:#e6fffa;border:2px solid var(--green);}
+.flow-icon.s2{background:#fffbeb;border:2px solid var(--orange);}
+.flow-icon.s3{background:#fef2f2;border:2px solid #fc8181;}
+.flow-icon.s4{background:#f3e8ff;border:2px solid #9f7aea;}
+.flow-line{width:2px;background:var(--border);flex:1;min-height:16px;margin:3px 0;}
+.flow-body{padding-bottom:18px;flex:1;}
+.flow-step:last-child .flow-body{padding-bottom:0;}
+.flow-title{font-size:13px;font-weight:500;color:var(--ink);margin-bottom:3px;}
+.flow-desc{font-size:12px;color:var(--muted);line-height:1.8;}
+.flow-desc strong{color:var(--ink);font-weight:500;}
+.flow-example{font-size:11.5px;background:var(--bg);border-radius:6px;padding:8px 10px;margin-top:6px;color:#4a5568;line-height:1.8;border-left:2px solid var(--border);}
+.flow-now{display:inline-block;font-size:10px;background:var(--blue);color:#fff;border-radius:10px;padding:1px 8px;margin-left:6px;vertical-align:middle;}
+
+/* 乖離セクション */
+.gap-section{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:20px 18px;margin-bottom:20px;}
+.gap-section h3{font-size:13px;font-weight:500;color:var(--ink);margin-bottom:4px;}
+.gap-section .gap-sub{font-size:11.5px;color:var(--muted);margin-bottom:16px;line-height:1.8;}
+.gap-rule{background:var(--bg);border-radius:8px;padding:14px;margin-bottom:10px;border-left:3px solid var(--border);}
+.gap-rule.r-blue{border-left-color:var(--blue);}
+.gap-rule.r-green{border-left-color:var(--green);}
+.gap-rule.r-orange{border-left-color:var(--orange);}
+.gap-rule-title{font-size:12.5px;font-weight:500;color:var(--ink);margin-bottom:6px;}
+.gap-rule-body{font-size:12px;color:var(--muted);line-height:1.9;}
+.gap-rule-body strong{color:var(--ink);font-weight:500;}
+.persona-split{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px;}
+.psplit-card{border-radius:8px;padding:12px 14px;border:1px solid var(--border);}
+.psplit-card.main{background:#ebf8ff;border-color:#90cdf4;}
+.psplit-card.sub{background:#e6fffa;border-color:#9ae6b4;}
+.psplit-label{font-size:10px;font-weight:500;letter-spacing:.1em;padding:2px 8px;border-radius:10px;display:inline-block;margin-bottom:6px;}
+.psplit-card.main .psplit-label{background:var(--blue);color:#fff;}
+.psplit-card.sub .psplit-label{background:var(--green);color:#fff;}
+.psplit-card h4{font-size:12.5px;font-weight:500;color:var(--ink);margin-bottom:4px;}
+.psplit-card p{font-size:11.5px;color:var(--muted);line-height:1.8;}
+
+/* データカード */
+.data-banner{background:var(--ink);border-bottom:3px solid var(--orange);padding:18px 20px;}
+.data-banner h3{font-size:12px;font-weight:500;color:var(--orange);letter-spacing:.1em;margin-bottom:12px;}
+.data-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px;}
+.data-card{background:rgba(255,255,255,.08);border-radius:8px;padding:10px 8px;text-align:center;}
+.data-card .dc-label{font-size:10px;color:rgba(255,255,255,.6);margin-bottom:3px;}
+.data-card .dc-val{font-size:20px;font-weight:500;color:#fff;}
+.data-card .dc-sub{font-size:10px;color:rgba(255,255,255,.5);margin-top:1px;}
+.bar-chart{margin-top:4px;}
+.bar-row{display:flex;align-items:center;gap:8px;margin-bottom:5px;}
+.bar-label{font-size:11px;color:rgba(255,255,255,.7);width:52px;text-align:right;flex-shrink:0;}
+.bar-wrap{flex:1;background:rgba(255,255,255,.1);border-radius:3px;height:14px;overflow:hidden;}
+.bar-fill{height:100%;border-radius:3px;transition:width .6s ease;}
+.bar-num{font-size:10px;color:rgba(255,255,255,.6);width:38px;flex-shrink:0;}
+.data-note{font-size:11px;color:rgba(255,255,255,.5);margin-top:10px;line-height:1.7;}
+.data-note strong{color:var(--orange);}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>女性のお顔剃り<br>ペルソナシート</h1>
+  <p>アクセスオオホリ株式会社　社内用</p>
+</header>
+
+<div class="tabs">
+  <div class="tab active" onclick="switchTab('hearing')" id="tab-hearing">📝 ヒアリング入力</div>
+  <div class="tab" onclick="switchTab('result')" id="tab-result">📊 集計・ペルソナ（管理者）</div>
+</div>
+
+<!-- ========== ヒアリングタブ ========== -->
+<div class="tab-content active" id="tc-hearing">
+
+<!-- データバナー -->
+<div class="data-banner">
+  <h3>📊 実際の来店データ（顧客名簿 61名分）</h3>
+  <div class="data-grid">
+    <div class="data-card">
+      <div class="dc-label">総顧客数</div>
+      <div class="dc-val">61名</div>
+      <div class="dc-sub">年齢判明 55名</div>
+    </div>
+    <div class="data-card">
+      <div class="dc-label">平均年齢</div>
+      <div class="dc-val">34.5歳</div>
+      <div class="dc-sub">幅16〜75歳</div>
+    </div>
+    <div class="data-card">
+      <div class="dc-label">中央値</div>
+      <div class="dc-val">31歳</div>
+      <div class="dc-sub">50%が31歳以下</div>
+    </div>
+    <div class="data-card">
+      <div class="dc-label">最多年代</div>
+      <div class="dc-val">20代</div>
+      <div class="dc-sub">39% / 24名</div>
+    </div>
+  </div>
+  <div class="bar-chart">
+    <div class="bar-row"><div class="bar-label">10代</div><div class="bar-wrap"><div class="bar-fill" style="width:8%;background:#378ADD;"></div></div><div class="bar-num">2名 3%</div></div>
+    <div class="bar-row"><div class="bar-label">20代</div><div class="bar-wrap"><div class="bar-fill" style="width:100%;background:#f6ad55;"></div></div><div class="bar-num">24名 39%</div></div>
+    <div class="bar-row"><div class="bar-label">30代</div><div class="bar-wrap"><div class="bar-fill" style="width:50%;background:#378ADD;"></div></div><div class="bar-num">12名 20%</div></div>
+    <div class="bar-row"><div class="bar-label">40代</div><div class="bar-wrap"><div class="bar-fill" style="width:25%;background:#378ADD;"></div></div><div class="bar-num">6名 10%</div></div>
+    <div class="bar-row"><div class="bar-label">50代</div><div class="bar-wrap"><div class="bar-fill" style="width:33%;background:#378ADD;"></div></div><div class="bar-num">8名 13%</div></div>
+    <div class="bar-row"><div class="bar-label">60代以上</div><div class="bar-wrap"><div class="bar-fill" style="width:12%;background:#718096;"></div></div><div class="bar-num">3名 5%</div></div>
+  </div>
+  <div class="data-note">
+    <strong>経験あるスタッフへ：</strong>年代のデータは上記で確認できます。パート1の年代選択は不要です。「なぜ来たか」「どんな悩みを持っていたか」の深掘りに集中して答えてください。<br>
+    <strong>経験のないスタッフへ：</strong>このデータを参考に「身近な実在の女性」をイメージして答えてください。
+  </div>
+</div>
+
+<div class="intro-box">
+  <h2>はじめに読んでください</h2>
+  <p>
+    このシートの目的は、<span class="hl">「女性のお顔剃りメニューの売上を最大化するために、どのお客様に集中するかを決めること」</span>です。<br><br>
+    理容の仕事に例えると、すべての髪質に同じカットをするより、<strong>その方の髪質に合った技術を選ぶほうが仕上がりも満足度も上がります</strong>。メニューの届け方も同じで、「誰にでも」ではなく<strong>「この方に届ける」</strong>と決めることで、集客・接客・価格設定のすべての精度が上がります。<br><br>
+    <strong>友達を選ぶ質問でも、好みを聞く質問でもありません。</strong><br>
+    「どのお客様に集中すれば、お店の売上が最も伸びるか」という視点で答えてください。この前提がズレると、チームの答えもズレます。<br><br>
+    質問は<strong>「パート1：事実」</strong>と<strong>「パート2：理想」</strong>の2つです。意味が全く違うので下を読んでから答えてください。
+  </p>
+  <div class="route-box">
+    <div class="r">
+      📋 <span class="label-b">パート1「事実」とは？</span><br>
+      <span class="label-b">🔵 お顔剃りの担当経験がある方：</span>年代は冒頭のデータで確認できます。<strong>「なぜ来たか」「どんな悩みか」の深掘り</strong>に集中して答えてください。<br>
+      <div class="ex ok">✅ 例：「成人式前に来た」「産毛が気になると言っていた」「紹介で来た」</div>
+      <br>
+      <span class="label-y">🟡 経験がまだない・少ない方：</span>家族・友人・知人など<strong>日常で知っている実在の女性</strong>を1人思い浮かべてください。「この人、顔剃りをしたら喜びそう」と感じる方をイメージして答えてください。<br>
+      <div class="ex ok">✅ 例：「お母さん（40代・主婦）が喜びそう」「友人（20代・就活中）が来そう」</div>
+      <div class="ex ng">❌ 避けてほしい：「こういう人が来たらいいな」という単なる希望　→ それはパート2へ</div>
+    </div>
+    <div class="r" style="border-top:1px solid var(--border);padding-top:10px;margin-top:4px;">
+      ⭐ <span class="label-b" style="color:var(--green);">パート2「理想」とは？</span><br>
+      「自分がやりたい・来てほしい」お客様像を本音で答えてください。パート1と同じでも違っても構いません。
+    </div>
+  </div>
+</div>
+
+<div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
+
+<div class="container">
+<form id="hearingForm">
+
+  <!-- 名前 -->
+  <div class="qc" style="border-top:3px solid var(--orange);">
+    <div class="qlabel">あなたの名前<span class="req">必須</span></div>
+    <div class="hint">回答の照合のみに使います。他のスタッフには公開しません。</div>
+    <input type="text" class="ni" id="staffName" placeholder="例：田中　花子">
+  </div>
+
+  <hr class="divider">
+
+  <!-- ===== パート1：事実 ===== -->
+  <div class="ch fact">
+    <div class="ch-num">1</div>
+    <div class="ch-text">
+      <div class="tag">FACT｜事実</div>
+      <h3>見たこと・感じたことを<br>教えてください</h3>
+      <p>経験あり→実際の来店事実　／　経験なし→日常の実在の女性をイメージ。希望・願望はパート2へ。</p>
+    </div>
+  </div>
+
+  <div class="edu">
+    <div class="edu-title">パート1の答え方（経験の有無で変わります）</div>
+    <p>
+      <strong>🔵 担当経験がある方：</strong>年代は冒頭のデータで確認済みです。ここでは<strong>「なぜ来たのか」「どんな悩みを持っていたか」「どんな言葉を言っていたか」</strong>の深掘りに集中して答えてください。<br><br>
+      <strong>🟡 経験がまだない・少ない方：</strong>冒頭のデータを参考にしながら、家族・友人・知人など<strong>実在する女性を1人思い浮かべて</strong>答えてください。「この人に体験させたい」と感じる方で構いません。
+    </p>
+  </div>
+
+  <!-- 事実① 年代（経験者はデータ参照・未経験者のみ選択） -->
+  <div class="qc fq">
+    <div class="qbadge">事実①</div>
+    <div class="qlabel">年代の確認</div>
+    <div class="hint" style="background:#fffbeb;border-left-color:var(--orange);">
+      <span class="hb">🔵 経験あり：</span>冒頭のデータをご確認ください。<strong>年代はデータで把握済みのため選択不要です。</strong>次の設問から答えてください。<br>
+      <span class="hy">🟡 経験なし：</span>思い浮かべた実在の女性の年代を選んでください。複数選択OK
+    </div>
+    <div class="choices" id="fact_age_choices">
+      <label class="ci"><input type="checkbox" name="fact_age" value="10代">10代（〜19歳）</label>
+      <label class="ci"><input type="checkbox" name="fact_age" value="20代前半">20代前半（20〜24歳）</label>
+      <label class="ci"><input type="checkbox" name="fact_age" value="20代後半">20代後半（25〜29歳）</label>
+      <label class="ci"><input type="checkbox" name="fact_age" value="30代前半">30代前半（30〜34歳）</label>
+      <label class="ci"><input type="checkbox" name="fact_age" value="30代後半">30代後半（35〜39歳）</label>
+      <label class="ci"><input type="checkbox" name="fact_age" value="40代前半">40代前半（40〜44歳）</label>
+      <label class="ci"><input type="checkbox" name="fact_age" value="40代後半">40代後半（45〜49歳）</label>
+      <label class="ci"><input type="checkbox" name="fact_age" value="50代">50代（50〜59歳）</label>
+      <label class="ci"><input type="checkbox" name="fact_age" value="60代以上">60代以上</label>
+      <label class="ci" style="background:#fffbeb;border-color:var(--orange);"><input type="checkbox" name="fact_age" value="経験あり→データ参照">🔵 経験あり：データで確認済み（選択不要）</label>
+    </div>
+  </div>
+
+  <!-- 事実② 職業 -->
+  <div class="qc fq">
+    <div class="qbadge">事実②</div>
+    <div class="qlabel">職業・立場は？</div>
+    <div class="hint">
+      <span class="hb">🔵 経験あり：</span>実際のお客様の職業　／　
+      <span class="hy">🟡 経験なし：</span>思い浮かべた女性の職業　／　複数選択OK
+    </div>
+    <div class="choices">
+      <label class="ci"><input type="checkbox" name="fact_job" value="学生">学生</label>
+      <label class="ci"><input type="checkbox" name="fact_job" value="会社員（新入〜数年）">会社員（入社数年以内）</label>
+      <label class="ci"><input type="checkbox" name="fact_job" value="会社員（中堅〜ベテラン）">会社員（中堅〜ベテラン）</label>
+      <label class="ci"><input type="checkbox" name="fact_job" value="管理職・役員">管理職・役員</label>
+      <label class="ci"><input type="checkbox" name="fact_job" value="経営者・自営業">経営者・自営業</label>
+      <label class="ci"><input type="checkbox" name="fact_job" value="医療・法律・金融などの専門職">医療・法律・金融などの専門職</label>
+      <label class="ci"><input type="checkbox" name="fact_job" value="専業主婦">専業主婦</label>
+      <label class="ci"><input type="checkbox" name="fact_job" value="わからない">わからない</label>
+    </div>
+  </div>
+
+  <!-- 事実③ イベント -->
+  <div class="qc fq">
+    <div class="qbadge">事実③</div>
+    <div class="qlabel">来店のきっかけになりそうなイベントは？</div>
+    <div class="hint">
+      <span class="hb">🔵 経験あり：</span>実際に聞いた来店理由　／　
+      <span class="hy">🟡 経験なし：</span>思い浮かべた女性が来そうなきっかけ　／　複数選択OK
+    </div>
+    <div class="choices">
+      <label class="ci"><input type="checkbox" name="fact_event" value="結婚式">結婚式（本人・参列）</label>
+      <label class="ci"><input type="checkbox" name="fact_event" value="成人式・卒業式">成人式・卒業式</label>
+      <label class="ci"><input type="checkbox" name="fact_event" value="入学式・入社式">入学式・入社式</label>
+      <label class="ci"><input type="checkbox" name="fact_event" value="就職活動・面接">就職活動・面接</label>
+      <label class="ci"><input type="checkbox" name="fact_event" value="記念日・誕生日">記念日・誕生日</label>
+      <label class="ci"><input type="checkbox" name="fact_event" value="旅行・帰省前">旅行・帰省前</label>
+      <label class="ci"><input type="checkbox" name="fact_event" value="撮影・写真">撮影・写真（成人式・マタニティ等）</label>
+      <label class="ci"><input type="checkbox" name="fact_event" value="イベントなし（日常）">イベントなし（日常的なケアとして）</label>
+    </div>
+  </div>
+
+  <!-- 事実④ 肌の悩み -->
+  <div class="qc fq">
+    <div class="qbadge">事実④</div>
+    <div class="qlabel">肌の悩みは？</div>
+    <div class="hint">
+      <span class="hb">🔵 経験あり：</span>実際に聞いた悩み　／　
+      <span class="hy">🟡 経験なし：</span>思い浮かべた女性が持っていそうな悩み　／　複数選択OK
+    </div>
+    <div class="choices">
+      <label class="ci"><input type="checkbox" name="fact_skin" value="産毛・うぶ毛">産毛・うぶ毛が気になる</label>
+      <label class="ci"><input type="checkbox" name="fact_skin" value="化粧のり">化粧のりをよくしたい</label>
+      <label class="ci"><input type="checkbox" name="fact_skin" value="くすみ・トーン">くすみ・肌のトーンが気になる</label>
+      <label class="ci"><input type="checkbox" name="fact_skin" value="たるみ・ハリ">たるみ・ハリが気になる</label>
+      <label class="ci"><input type="checkbox" name="fact_skin" value="毛穴">毛穴が気になる</label>
+      <label class="ci"><input type="checkbox" name="fact_skin" value="時間がない">美容への意識は高いが時間がない</label>
+    </div>
+  </div>
+
+  <!-- 事実⑤ 来店経路 -->
+  <div class="qc fq">
+    <div class="qbadge">事実⑤</div>
+    <div class="qlabel">どうやって来店しそう・来ましたか？</div>
+    <div class="choices">
+      <label class="ci"><input type="checkbox" name="fact_route" value="紹介">知人・家族の紹介</label>
+      <label class="ci"><input type="checkbox" name="fact_route" value="SNS">SNS・Instagram</label>
+      <label class="ci"><input type="checkbox" name="fact_route" value="Google検索">Google検索</label>
+      <label class="ci"><input type="checkbox" name="fact_route" value="通りすがり">通りすがり・前から知っていた</label>
+      <label class="ci"><input type="checkbox" name="fact_route" value="ホットペッパービューティー">ホットペッパービューティー</label>
+      <label class="ci"><input type="checkbox" name="fact_route" value="わからない">わからない</label>
+    </div>
+  </div>
+
+  <!-- 事実⑥ 自由 -->
+  <div class="qc fq">
+    <div class="qbadge">事実⑥</div>
+    <div class="qlabel">お客様から聞いた言葉・来店理由（または思い浮かべた方のイメージ）</div>
+    <div class="hint">なければ「なし」でOK</div>
+    <textarea id="fact_free" placeholder="経験あり→「産毛が気になると言っていた」など　／　経験なし→「友人が就活前に気にしていそう」など"></textarea>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ===== パート2：理想 ===== -->
+  <div class="ch ideal">
+    <div class="ch-num">2</div>
+    <div class="ch-text">
+      <div class="tag">IDEAL｜理想</div>
+      <h3>「自分がやりたい」<br>お客様像を教えてください</h3>
+      <p>パート1とは切り離して、あなた自身の本音・希望を答えてください。</p>
+    </div>
+  </div>
+
+  <div class="edu">
+    <div class="edu-title">パート2の答え方</div>
+    <p>
+      パート1（事実）とは完全に切り離して考えてください。<br><br>
+      <strong>「自分がこんな方に施術したい」「この方なら技術が活かせる」「接客していて楽しい」</strong>と感じるお客様像を本音で答えてください。パート1と同じでも、全く違っても正解です。
+    </p>
+  </div>
+
+  <!-- 理想① 年代 -->
+  <div class="qc iq">
+    <div class="qbadge">理想①</div>
+    <div class="qlabel">来てほしい方の年代は？<span class="req">必須</span></div>
+    <div class="hint">観察ではなく「自分の本音・希望」で選んでください。複数選択OK</div>
+    <div class="choices">
+      <label class="ci"><input type="checkbox" name="ideal_age" value="10代">10代（〜19歳）</label>
+      <label class="ci"><input type="checkbox" name="ideal_age" value="20代前半">20代前半（20〜24歳）</label>
+      <label class="ci"><input type="checkbox" name="ideal_age" value="20代後半">20代後半（25〜29歳）</label>
+      <label class="ci"><input type="checkbox" name="ideal_age" value="30代前半">30代前半（30〜34歳）</label>
+      <label class="ci"><input type="checkbox" name="ideal_age" value="30代後半">30代後半（35〜39歳）</label>
+      <label class="ci"><input type="checkbox" name="ideal_age" value="40代前半">40代前半（40〜44歳）</label>
+      <label class="ci"><input type="checkbox" name="ideal_age" value="40代後半">40代後半（45〜49歳）</label>
+      <label class="ci"><input type="checkbox" name="ideal_age" value="50代">50代（50〜59歳）</label>
+      <label class="ci"><input type="checkbox" name="ideal_age" value="60代以上">60代以上</label>
+    </div>
+  </div>
+
+  <!-- 理想② 職業 -->
+  <div class="qc iq">
+    <div class="qbadge">理想②</div>
+    <div class="qlabel">来てほしい方の職業・立場は？</div>
+    <div class="hint">「この職業の方に施術したい」という本音で答えてください。複数選択OK</div>
+    <div class="choices">
+      <label class="ci"><input type="checkbox" name="ideal_job" value="学生">学生</label>
+      <label class="ci"><input type="checkbox" name="ideal_job" value="会社員（新入〜数年）">会社員（入社数年以内）</label>
+      <label class="ci"><input type="checkbox" name="ideal_job" value="会社員（中堅〜ベテラン）">会社員（中堅〜ベテラン）</label>
+      <label class="ci"><input type="checkbox" name="ideal_job" value="管理職・役員">管理職・役員</label>
+      <label class="ci"><input type="checkbox" name="ideal_job" value="経営者・自営業">経営者・自営業</label>
+      <label class="ci"><input type="checkbox" name="ideal_job" value="医療・法律・金融などの専門職">医療・法律・金融などの専門職</label>
+      <label class="ci"><input type="checkbox" name="ideal_job" value="専業主婦">専業主婦</label>
+      <label class="ci"><input type="checkbox" name="ideal_job" value="職業より人柄・価値観を重視">職業より人柄・価値観を重視したい</label>
+    </div>
+  </div>
+
+  <!-- 理想③ 悩み -->
+  <div class="qc iq">
+    <div class="qbadge">理想③</div>
+    <div class="qlabel">解決してあげたい悩みは？</div>
+    <div class="hint">「こういう悩みを持つ方に来てほしい」という希望で選んでください。複数選択OK</div>
+    <div class="choices">
+      <label class="ci"><input type="checkbox" name="ideal_skin" value="産毛・うぶ毛">産毛・うぶ毛が気になる</label>
+      <label class="ci"><input type="checkbox" name="ideal_skin" value="化粧のり">化粧のりをよくしたい</label>
+      <label class="ci"><input type="checkbox" name="ideal_skin" value="くすみ・トーン">くすみ・肌のトーンが気になる</label>
+      <label class="ci"><input type="checkbox" name="ideal_skin" value="たるみ・ハリ">たるみ・ハリが気になる</label>
+      <label class="ci"><input type="checkbox" name="ideal_skin" value="毛穴">毛穴が気になる</label>
+      <label class="ci"><input type="checkbox" name="ideal_skin" value="時間がない">美容意識は高いが時間がない</label>
+    </div>
+  </div>
+
+  <!-- 理想④ 価格 -->
+  <div class="qc iq">
+    <div class="qbadge">理想④</div>
+    <div class="qlabel">来てほしい方が払えると思う金額は？</div>
+    <div class="hint">あなたの感覚で選んでください</div>
+    <div class="price-val" id="priceDisplay">¥6,600</div>
+    <input type="range" id="priceRange" min="3000" max="20000" step="500" value="6600"
+      oninput="document.getElementById('priceDisplay').textContent='¥'+Number(this.value).toLocaleString()">
+    <div class="range-ends"><span>¥3,000</span><span>¥20,000</span></div>
+  </div>
+
+  <!-- 理想⑤ 価値観 -->
+  <div class="qc iq">
+    <div class="qbadge">理想⑤</div>
+    <div class="qlabel">来てほしい方の価値観・雰囲気は？</div>
+    <div class="hint">「こんな感じの人」という言葉でOKです。なければ空白でOK</div>
+    <textarea id="ideal_free" placeholder="例：「流行より本物を選ぶ人」「自分の時間を大切にする人」「見た目に気を使っている人」など"></textarea>
+  </div>
+
+  <!-- 理想⑥ NG -->
+  <div class="qc iq">
+    <div class="qbadge">理想⑥</div>
+    <div class="qlabel">「少し対応が難しい」と感じるタイプはありますか？</div>
+    <div class="hint">正解はありません。「合わないな」と感じた経験や雰囲気でOK。なければ「なし」</div>
+    <textarea id="ideal_ng" placeholder="例：「急かされる感じの方」「値段を気にされる方」など。雰囲気だけでもOK"></textarea>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ===== パート3：ふりかえり ===== -->
+  <div class="ch reflect">
+    <div class="ch-num">3</div>
+    <div class="ch-text">
+      <div class="tag">REFLECT｜ふりかえり</div>
+      <h3>最後にあなたの感覚を<br>聞かせてください</h3>
+      <p>正解はありません。思ったことを素直に答えてください。</p>
+    </div>
+  </div>
+
+  <div class="qc" style="border-top:3px solid var(--orange);">
+    <div class="qlabel">パート1とパート2で、年代の答えは同じでしたか？</div>
+    <div class="choices">
+      <label class="ci"><input type="radio" name="gap"> 同じだった</label>
+      <label class="ci"><input type="radio" name="gap"> 少しズレていた</label>
+      <label class="ci"><input type="radio" name="gap"> はっきり違った</label>
+    </div>
+  </div>
+
+  <div class="qc" style="border-top:3px solid var(--orange);">
+    <div class="qlabel">年代によって来る理由や悩みが違うと感じますか？気づいたことがあれば教えてください</div>
+    <div class="hint">なければ空白でOK</div>
+    <textarea id="diff_free" placeholder="例：若い方は産毛や化粧のりが目的、年配の方はたるみやくすみが気になっていそう、など"></textarea>
+  </div>
+
+  <!-- プロセスフロー -->
+  <hr class="divider">
+  <div class="flow-section">
+    <h3>📍 このシートの後、何が起きるのか</h3>
+    <div class="flow-sub">
+      ペルソナを決めることがゴールではありません。<br>
+      「誰に届けるか」が決まって初めて、メニュー・価格・集客のすべてに一貫性が生まれます。<br>
+      以下の流れで、このシートの回答がお店の売上につながります。
+    </div>
+    <div class="flow-steps">
+
+      <div class="flow-step">
+        <div class="flow-step-left">
+          <div class="flow-icon s0">📝</div>
+          <div class="flow-line"></div>
+        </div>
+        <div class="flow-body">
+          <div class="flow-title">STEP 1　ペルソナを確定する<span class="flow-now">← 今ここ</span></div>
+          <div class="flow-desc">
+            このシートの回答をミーティングで集計し、<strong>「誰に集中するか」を1人に絞ります。</strong><br>
+            全員の意見を機械的に集計して決めるので、好みや感情は入りません。
+          </div>
+          <div class="flow-example">
+            例）「20代後半〜30代前半・会社員・結婚式や就活などのイベント前に来る・産毛と化粧のりが悩み」
+          </div>
+        </div>
+      </div>
+
+      <div class="flow-step">
+        <div class="flow-step-left">
+          <div class="flow-icon s1">🔍</div>
+          <div class="flow-line"></div>
+        </div>
+        <div class="flow-body">
+          <div class="flow-title">STEP 2　その人の「本音の悩み」を言語化する</div>
+          <div class="flow-desc">
+            ペルソナが決まったら、<strong>その方が「何に困っているか・何を求めているか」</strong>を深掘りします。<br>
+            カットで言えば、お客様の「骨格・生え癖・ライフスタイル」を把握するプロセスと同じです。<br>
+            理解が深いほど、提案の精度が上がります。
+          </div>
+          <div class="flow-example">
+            例）「結婚式の2週間前に来る→当日のメイクのりを最優先している→施術後の肌変化を実感してほしい」
+          </div>
+        </div>
+      </div>
+
+      <div class="flow-step">
+        <div class="flow-step-left">
+          <div class="flow-icon s2">✂️</div>
+          <div class="flow-line"></div>
+        </div>
+        <div class="flow-body">
+          <div class="flow-title">STEP 3　メニュー・価格・体験を設計する</div>
+          <div class="flow-desc">
+            ペルソナの悩みに応えるメニューを設計します。<strong>「誰でもOK」ではなく「この方のために」</strong>設計することで、価格への納得感も上がります。<br>
+            カット技術と同じで、全員に同じ施術をするより、その方に合わせた提案のほうが満足度が高くなります。
+          </div>
+          <div class="flow-example">
+            例）「イベント前特化プラン・施術後スキンケアアドバイス付き・¥6,600〜」
+          </div>
+        </div>
+      </div>
+
+      <div class="flow-step">
+        <div class="flow-step-left">
+          <div class="flow-icon s3">📣</div>
+          <div class="flow-line"></div>
+        </div>
+        <div class="flow-body">
+          <div class="flow-title">STEP 4　ペルソナに届く言葉・場所で発信する</div>
+          <div class="flow-desc">
+            ペルソナが決まると、<strong>「どこで・どんな言葉で・何を伝えるか」</strong>が明確になります。<br>
+            「誰にでも」の発信はどこにも刺さりません。「この方に向けた言葉」が初めて響きます。
+          </div>
+          <div class="flow-example">
+            例）「Instagram：結婚式・成人式前の投稿　／　Google：顔剃り 福岡 女性　／　HPB：イベント前ケア」
+          </div>
+        </div>
+      </div>
+
+      <div class="flow-step">
+        <div class="flow-step-left">
+          <div class="flow-icon s4">🔄</div>
+        </div>
+        <div class="flow-body">
+          <div class="flow-title">STEP 5　来店・施術・リピートの仕組みをつくる</div>
+          <div class="flow-desc">
+            来店してもらうだけでは売上は最大化しません。<strong>一度来た方が「また来たい」と思う体験</strong>を設計することで、安定した売上につながります。<br>
+            スタッフ一人ひとりが、ペルソナを理解しているほど接客の質が上がります。
+          </div>
+          <div class="flow-example">
+            例）「施術後カード渡し・次回予約の声かけ・LINE登録でイベント前リマインド」
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- 乖離が出たときの対処法 -->
+  <div class="gap-section">
+    <h3>⚡ ペルソナが分かれた場合どうするか</h3>
+    <div class="gap-sub">
+      集計結果で「30代と50代」「イベント目的と日常ケア目的」など、答えが2つに割れることがあります。<br>
+      その場合、無理に1つにまとめる必要はありません。以下の3つの基準で判断します。
+    </div>
+
+    <div class="gap-rule r-blue">
+      <div class="gap-rule-title">基準① 来店理由が根本的に違う → 別ペルソナとして分ける</div>
+      <div class="gap-rule-body">
+        同じ「顔剃り」でも、<strong>来た理由が違えば、響く言葉もメニュー設計も変わります。</strong><br>
+        理容で例えると、同じカットでも「就活用に清潔感を出したい方」と「白髪を活かしたスタイルにしたい方」では、提案の仕方が全く変わるのと同じです。<br>
+        来店理由・悩み・集客方法のどれか1つでも大きく違う場合は、無理にまとめず2つのペルソナとして扱います。
+      </div>
+    </div>
+
+    <div class="gap-rule r-green">
+      <div class="gap-rule-title">基準② 数が多い層をメイン、少ない層をサブとして順番をつける</div>
+      <div class="gap-rule-body">
+        2つのペルソナが出た場合、<strong>どちらを先に攻めるかの順番が重要です。</strong><br>
+        来店データでは20〜30代が全体の59%・50代が13%です。まず数の多い層をメインペルソナとして集客の主軸にし、少ない層をサブペルソナとして単価・リピート設計に活かします。<br>
+        2つを同時に追うと、発信もメニューも中途半端になります。
+      </div>
+    </div>
+
+    <div class="gap-rule r-orange">
+      <div class="gap-rule-title">基準③ スタッフが「より力を入れられる」ほうを優先する</div>
+      <div class="gap-rule-body">
+        売上最大化の観点では、<strong>スタッフが自然に力を入れられる相手への接客品質が一番高くなります。</strong><br>
+        数字だけでなく「このお客様なら技術が活かせる」という感覚も判断材料に入れてください。それがこのシートで理想を聞いた理由です。
+      </div>
+    </div>
+
+    <div style="margin-top:16px;font-size:12.5px;font-weight:500;color:var(--ink);margin-bottom:8px;">他業種での事例（パーソナルトレーニングジムの場合）</div>
+    <div style="font-size:11.5px;color:var(--muted);margin-bottom:10px;line-height:1.8;">
+      あるパーソナルトレーニングジムでは、集計結果が「20代・ダイエット目的」と「40代・健康維持目的」に分かれました。以下のように整理したことで、発信と収益の両方が安定しました。
+    </div>
+    <div class="persona-split">
+      <div class="psplit-card main">
+        <div class="psplit-label">メインペルソナ</div>
+        <h4>集客・発信の主軸</h4>
+        <p>20代・女性<br>ダイエット・見た目改善目的<br>SNS・検索経由<br>短期で結果を求める</p>
+      </div>
+      <div class="psplit-card sub">
+        <div class="psplit-label">サブペルソナ</div>
+        <h4>リピート・単価の主軸</h4>
+        <p>40代・男女<br>健康維持・体力向上目的<br>紹介・口コミ経由<br>長期契約・価値で判断する</p>
+      </div>
+    </div>
+    <div style="font-size:11.5px;color:var(--muted);margin-top:10px;line-height:1.9;padding:10px;background:var(--bg);border-radius:6px;">
+      SNSでメインに向けた発信で新規を集め、40代サブペルソナの長期契約でリピート収益を安定させました。<strong style="color:var(--ink);">2つを同時に追わず、役割を分けたことが収益改善のポイントです。</strong>
+    </div>
+  </div>
+
+  <button type="submit" class="btn-submit">✅　回答を送信する</button>
+
+</form>
+
+<div class="thankyou" id="thankyou">
+  <div class="mark">🎉</div>
+  <h2>ありがとうございました！</h2>
+  <p>回答を保存しました。<br>ミーティングまでこのページを<br>そのままにしておいてください。</p>
+</div>
+</div>
+</div>
+
+<!-- ========== 集計タブ ========== -->
+<div class="tab-content" id="tc-result">
+<div class="container">
+
+  <!-- ロック画面 -->
+  <div class="lock-screen" id="lockScreen">
+    <div class="lock-icon">🔒</div>
+    <h2>管理者専用エリア</h2>
+    <p>このエリアはミーティング当日に<br>代表が開きます。<br>パスワードを入力してください。</p>
+    <div class="pw-wrap">
+      <input type="password" class="pw-input" id="pwInput" placeholder="••••" maxlength="20"
+        onkeydown="if(event.key==='Enter')checkPw()">
+      <button class="pw-btn" onclick="checkPw()">開く</button>
+    </div>
+    <div class="pw-error" id="pwError"></div>
+    <div class="pw-note">
+      ※ スタッフの皆さんへ<br>
+      このエリアはミーティングで代表が開きます。<br>
+      先に見ると回答が偏る可能性があるため、<br>当日まで開かないようにしてください。
+    </div>
+  </div>
+
+  <!-- 集計コンテンツ（ロック解除後） -->
+  <div id="resultContent" style="display:none;">
+
+    <!-- スタッフ回答状況 -->
+    <div class="waiting-msg" id="waitingMsg">
+      <div class="wi">⏳</div>
+      <h3>スタッフの回答状況</h3>
+      <p>ミーティング前にスタッフが入力します。<br>2名分揃ったら集計ボタンが有効になります。</p>
+      <div class="staff-status" id="staffStatus"></div>
+    </div>
+
+    <button class="btn-submit" id="calcBtn" onclick="calculate()" style="margin-top:0;">📊　集計してペルソナを生成する</button>
+
+    <div id="resultArea">
+      <div class="result-header">
+        <h2>集計結果・自動生成ペルソナ</h2>
+        <p id="resultDate"></p>
+      </div>
+      <div class="legend">
+        <div class="legend-item"><div class="ldot match"></div>2人一致（確定項目）</div>
+        <div class="legend-item"><div class="ldot solo"></div>1人のみ（参考項目）</div>
+      </div>
+
+      <div class="pcard fact-c">
+        <div class="pcard-title">📋 事実ペルソナ｜実際に来ている（来そうな）お客様像</div>
+        <div class="ptext" id="factPersonaText"></div>
+        <button class="copy-btn" onclick="copyText('factPersonaText',this)">コピーする</button>
+        <div class="score-section">
+          <h4>▼ スコア内訳</h4>
+          <div class="sitems" id="factScoreItems"></div>
+        </div>
+      </div>
+
+      <div class="pcard ideal-c">
+        <div class="pcard-title">⭐ 理想ペルソナ｜来てほしいお客様像</div>
+        <div class="ptext" id="idealPersonaText"></div>
+        <button class="copy-btn" onclick="copyText('idealPersonaText',this)">コピーする</button>
+        <div class="score-section">
+          <h4>▼ スコア内訳</h4>
+          <div class="sitems" id="idealScoreItems"></div>
+        </div>
+      </div>
+
+      <div class="fsec">
+        <h3>💴 価格感覚</h3>
+        <div class="frow"><div class="fv" id="priceResult"></div></div>
+      </div>
+
+      <div class="fsec">
+        <h3>📝 自由記述まとめ</h3>
+        <div class="frow"><div class="fl">お客様の言葉・来店理由（または身近な女性のイメージ）</div><div class="fv" id="freeFactResult"></div></div>
+        <div class="frow"><div class="fl">来てほしいお客様の価値観・雰囲気</div><div class="fv" id="freeIdealResult"></div></div>
+        <div class="frow"><div class="fl">対応が難しいと感じるタイプ</div><div class="fv" id="freeNgResult"></div></div>
+        <div class="frow"><div class="fl">年代による違い（気づき）</div><div class="fv" id="freeDiffResult"></div></div>
+      </div>
+
+      <div class="gap-box">
+        <h3>🔍 事実と理想のズレ分析</h3>
+        <div class="gap-val" id="gapResult"></div>
+      </div>
+    </div>
+
+    <button class="reset-btn" onclick="resetData()">⚠️ 回答データをリセットする</button>
+  </div>
+</div>
+</div>
+
+<script>
+const PW = '1946';
+const KEYS = ['staffA', 'staffB'];
+
+// ===== タブ切替 =====
+function switchTab(name) {
+  ['hearing','result'].forEach((n,i) => {
+    document.getElementById('tab-'+n).classList.toggle('active', n===name);
+    document.getElementById('tc-'+n).classList.toggle('active', n===name);
+  });
+}
+
+// ===== チェック選択ハイライト =====
+document.querySelectorAll('.ci input').forEach(input => {
+  input.addEventListener('change', function() {
+    if (this.type==='radio') {
+      document.querySelectorAll(`input[name="${this.name}"]`).forEach(r => r.closest('.ci').classList.remove('sel'));
+    }
+    this.closest('.ci').classList.toggle('sel', this.checked);
+  });
+});
+
+// ===== プログレス =====
+function updateProgress() {
+  const checks = [
+    () => document.getElementById('staffName').value.trim(),
+    () => document.querySelector('input[name="fact_age"]:checked'),
+    () => document.querySelector('input[name="ideal_age"]:checked'),
+  ];
+  const n = checks.filter(fn => !!fn()).length;
+  document.getElementById('progress').style.width = (n/checks.length*100)+'%';
+}
+document.querySelectorAll('input,textarea').forEach(el => {
+  el.addEventListener('input', updateProgress);
+  el.addEventListener('change', updateProgress);
+});
+
+// ===== 送信・保存 =====
+document.getElementById('hearingForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  const name = document.getElementById('staffName').value.trim();
+  if (!name) { alert('お名前を入力してください'); return; }
+  if (!document.querySelector('input[name="fact_age"]:checked')) { alert('事実①の年代を選択してください'); return; }
+  if (!document.querySelector('input[name="ideal_age"]:checked')) { alert('理想①の年代を選択してください'); return; }
+
+  const getChecked = sel => Array.from(document.querySelectorAll(sel+':checked')).map(el => el.value);
+  const data = {
+    name,
+    fact_age:   getChecked('input[name="fact_age"]'),
+    fact_job:   getChecked('input[name="fact_job"]'),
+    fact_event: getChecked('input[name="fact_event"]'),
+    fact_skin:  getChecked('input[name="fact_skin"]'),
+    fact_route: getChecked('input[name="fact_route"]'),
+    fact_free:  document.getElementById('fact_free').value.trim(),
+    ideal_age:  getChecked('input[name="ideal_age"]'),
+    ideal_job:  getChecked('input[name="ideal_job"]'),
+    ideal_skin: getChecked('input[name="ideal_skin"]'),
+    ideal_price: document.getElementById('priceRange').value,
+    ideal_free: document.getElementById('ideal_free').value.trim(),
+    ideal_ng:   document.getElementById('ideal_ng').value.trim(),
+    diff_free:  document.getElementById('diff_free').value.trim(),
+    submittedAt: new Date().toLocaleString('ja-JP')
+  };
+
+  // A or B どちらのスロットに保存するか決定
+  const existA = localStorage.getItem('staffA');
+  const existB = localStorage.getItem('staffB');
+  let slot = null;
+  if (!existA) { slot = 'staffA'; }
+  else {
+    const aData = JSON.parse(existA);
+    if (aData.name === name) { slot = 'staffA'; } // 同じ名前なら上書き
+    else if (!existB) { slot = 'staffB'; }
+    else { slot = 'staffB'; } // 上書き
+  }
+  localStorage.setItem(slot, JSON.stringify(data));
+
+  document.getElementById('hearingForm').style.display = 'none';
+  document.getElementById('thankyou').style.display = 'block';
+  document.getElementById('progress').style.width = '100%';
+  window.scrollTo({top:0,behavior:'smooth'});
+});
+
+// ===== パスワードチェック =====
+function checkPw() {
+  const val = document.getElementById('pwInput').value;
+  if (val === PW) {
+    document.getElementById('lockScreen').style.display = 'none';
+    document.getElementById('resultContent').style.display = 'block';
+    updateStaffStatus();
+  } else {
+    document.getElementById('pwError').textContent = 'パスワードが違います';
+    document.getElementById('pwInput').value = '';
+    setTimeout(() => document.getElementById('pwError').textContent = '', 2000);
+  }
+}
+
+// ===== スタッフ状況表示 =====
+function updateStaffStatus() {
+  const a = localStorage.getItem('staffA');
+  const b = localStorage.getItem('staffB');
+  const statusEl = document.getElementById('staffStatus');
+  statusEl.innerHTML = '';
+
+  [['staffA', a], ['staffB', b]].forEach(([key, raw]) => {
+    const el = document.createElement('div');
+    if (raw) {
+      const d = JSON.parse(raw);
+      el.className = 'ss done';
+      el.textContent = `✅ ${d.name}（${d.submittedAt}）`;
+    } else {
+      el.className = 'ss wait';
+      el.textContent = key === 'staffA' ? '⏳ スタッフA 未入力' : '⏳ スタッフB 未入力';
+    }
+    statusEl.appendChild(el);
+  });
+
+  const calcBtn = document.getElementById('calcBtn');
+  if (a || b) {
+    calcBtn.disabled = false;
+    calcBtn.style.opacity = '1';
+  } else {
+    calcBtn.disabled = true;
+    calcBtn.style.opacity = '0.4';
+  }
+}
+
+// ===== スコアリング =====
+function score(listA, listB) {
+  const all = new Set([...(listA||[]), ...(listB||[])]);
+  const match=[], soloA=[], soloB=[];
+  all.forEach(v => {
+    const ia=(listA||[]).includes(v), ib=(listB||[]).includes(v);
+    if(ia&&ib) match.push(v);
+    else if(ia) soloA.push(v);
+    else soloB.push(v);
+  });
+  return {match,soloA,soloB};
+}
+
+function renderTags(elId, scored, nameA, nameB) {
+  const el = document.getElementById(elId);
+  el.innerHTML = '';
+  scored.match.forEach(v => { const t=document.createElement('span'); t.className='stag match'; t.textContent='✓ '+v; el.appendChild(t); });
+  scored.soloA.forEach(v => { const t=document.createElement('span'); t.className='stag solo'; t.textContent=(nameA||'A')+': '+v; el.appendChild(t); });
+  scored.soloB.forEach(v => { const t=document.createElement('span'); t.className='stag solo'; t.textContent=(nameB||'B')+': '+v; el.appendChild(t); });
+}
+
+function pick(s) { return s.match.length>0 ? s.match : [...s.soloA,...s.soloB]; }
+
+function buildText(ageS, jobS, skinS, eventS, routeS) {
+  let t = '';
+  const ages=pick(ageS), jobs=pick(jobS), skins=pick(skinS), events=pick(eventS||{match:[],soloA:[],soloB:[]}), routes=pick(routeS||{match:[],soloA:[],soloB:[]});
+  if(ages.length)   t+=`【年代】${ages.join('・')}\n`;
+  if(jobs.length)   t+=`【職業・立場】${jobs.join('・')}\n`;
+  if(skins.length)  t+=`【肌の悩み】${skins.join('・')}\n`;
+  if(events.length) t+=`【来店きっかけ】${events.join('・')}\n`;
+  if(routes.length) t+=`【来店経路】${routes.join('・')}\n`;
+  return t || '（選択なし）';
+}
+
+// ===== 集計実行 =====
+function calculate() {
+  const rawA = localStorage.getItem('staffA');
+  const rawB = localStorage.getItem('staffB');
+  const dA = rawA ? JSON.parse(rawA) : null;
+  const dB = rawB ? JSON.parse(rawB) : null;
+  const nameA = dA ? dA.name : 'スタッフA';
+  const nameB = dB ? dB.name : 'スタッフB';
+
+  const e = (key) => ({ match:[], soloA:[], soloB:[] }); // empty
+  const factAge   = score(dA?.fact_age,   dB?.fact_age);
+  const factJob   = score(dA?.fact_job,   dB?.fact_job);
+  const factEvent = score(dA?.fact_event, dB?.fact_event);
+  const factSkin  = score(dA?.fact_skin,  dB?.fact_skin);
+  const factRoute = score(dA?.fact_route, dB?.fact_route);
+  const idealAge  = score(dA?.ideal_age,  dB?.ideal_age);
+  const idealJob  = score(dA?.ideal_job,  dB?.ideal_job);
+  const idealSkin = score(dA?.ideal_skin, dB?.ideal_skin);
+
+  document.getElementById('factPersonaText').textContent  = buildText(factAge, factJob, factSkin, factEvent, factRoute);
+  document.getElementById('idealPersonaText').textContent = buildText(idealAge, idealJob, idealSkin, e(), e());
+
+  const mergeScore = (...scores) => ({
+    match: scores.flatMap(s=>s.match),
+    soloA: scores.flatMap(s=>s.soloA),
+    soloB: scores.flatMap(s=>s.soloB)
+  });
+  renderTags('factScoreItems',  mergeScore(factAge,factJob,factEvent,factSkin,factRoute), nameA, nameB);
+  renderTags('idealScoreItems', mergeScore(idealAge,idealJob,idealSkin), nameA, nameB);
+
+  // 価格
+  const pA = parseInt(dA?.ideal_price||6600);
+  const pB = parseInt(dB?.ideal_price||6600);
+  const avg = Math.round((pA+pB)/2/500)*500;
+  document.getElementById('priceResult').textContent =
+    `${nameA}：¥${pA.toLocaleString()}　${nameB}：¥${pB.toLocaleString()}\n→ 平均：¥${avg.toLocaleString()}`;
+
+  // 自由記述
+  const freeText = (keyA, keyB) => {
+    const a = dA?.[keyA]||'', b = dB?.[keyB]||'';
+    if(!a&&!b) return '（記入なし）';
+    return (a?`${nameA}：${a}\n`:'') + (b?`${nameB}：${b}`:'');
+  };
+  document.getElementById('freeFactResult').textContent  = freeText('fact_free',  'fact_free');
+  document.getElementById('freeIdealResult').textContent = freeText('ideal_free', 'ideal_free');
+  document.getElementById('freeNgResult').textContent    = freeText('ideal_ng',   'ideal_ng');
+  document.getElementById('freeDiffResult').textContent  = freeText('diff_free',  'diff_free');
+
+  // ズレ分析
+  const factMain  = pick(factAge);
+  const idealMain = pick(idealAge);
+  const same      = factMain.filter(v=>idealMain.includes(v));
+  const onlyFact  = factMain.filter(v=>!idealMain.includes(v));
+  const onlyIdeal = idealMain.filter(v=>!factMain.includes(v));
+  let gap = '';
+  if(same.length)      gap+=`✅ 事実・理想ともに一致：${same.join('・')}\n`;
+  if(onlyFact.length)  gap+=`📋 実際は来るが理想に含まれない：${onlyFact.join('・')}\n`;
+  if(onlyIdeal.length) gap+=`⭐ 来てほしいが実際は少ない：${onlyIdeal.join('・')}\n`;
+  if(!gap) gap = '事実と理想の年代は完全に一致しています。';
+  document.getElementById('gapResult').textContent = gap;
+
+  // 日時
+  const now = new Date();
+  document.getElementById('resultDate').textContent =
+    `集計日時：${now.getFullYear()}/${now.getMonth()+1}/${now.getDate()} ${now.getHours()}:${String(now.getMinutes()).padStart(2,'0')}　回答者：${nameA}・${nameB}`;
+
+  document.getElementById('resultArea').style.display = 'block';
+  document.getElementById('waitingMsg').style.display = 'none';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// ===== コピー =====
+function copyText(id, btn) {
+  navigator.clipboard.writeText(document.getElementById(id).textContent).then(() => {
+    btn.textContent = 'コピーしました ✓';
+    btn.classList.add('copied');
+    setTimeout(()=>{ btn.textContent='コピーする'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+
+// ===== リセット =====
+function resetData() {
+  if (!confirm('スタッフ2名の回答データをすべて削除します。よろしいですか？')) return;
+  localStorage.removeItem('staffA');
+  localStorage.removeItem('staffB');
+  document.getElementById('resultArea').style.display = 'none';
+  document.getElementById('waitingMsg').style.display = 'block';
+  updateStaffStatus();
+  alert('リセットしました。');
+}
+</script>
+</body>
+</html>
